@@ -23,11 +23,11 @@ PRIMARY KEY (Placa)
 );
 
 CREATE TABLE LOCACAO(
-DataLocacao DATA,
-DataDevolucao DATA,
+DataLocacao DATE,
+DataDevolucao DATE,
 HorarioLocacao TIME,
 HorarioDevolucao TIME,
-NumeroLocacao int[4],
+NumeroLocacao int(4),
 PRIMARY KEY(NumeroLocacao)
 );
 
