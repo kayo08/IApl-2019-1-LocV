@@ -32,7 +32,7 @@ public class Principal extends javax.swing.JFrame {
     String modo;
 
     public void LoadTableClient() {
-        DefaultTableModel modelo = new DefaultTableModel(new Object[]{"Nome", "Cpf", "Rg", "Nacionalidade", "Telefone", "Nascimento", "Sexo"}, 0);
+        DefaultTableModel modelo = new DefaultTableModel(new Object[]{"Nome", "CPF", "RG", "Nacionalidade", "Telefone", "Nascimento", "Sexo"}, 0);
         for (int i = 0; i < ClientList.size(); i++) {
             Object linha[] = new Object[]{ClientList.get(i).getNome(), ClientList.get(i).getCpf(), ClientList.get(i).getRg(),
                 ClientList.get(i).getNacionalidade(), ClientList.get(i).getTelefone(), ClientList.get(i).getNascimento(), ClientList.get(i).getSexo()
@@ -43,9 +43,9 @@ public class Principal extends javax.swing.JFrame {
     }
 
     public void LoadTableLocation() {
-        DefaultTableModel modelo = new DefaultTableModel(new Object[]{"DataLocacao", "HoraLocacao", "DataDevolucao", "HoraDevolucao", "NumeroLocacao"}, 0);
+        DefaultTableModel modelo = new DefaultTableModel(new Object[]{"CPF Locação","Placa Locação","Data Locação", "Hora Locação", "Data Devolução", "Hora Devolução", "Número Locação"}, 0);
         for (int i = 0; i < LocationList.size(); i++) {
-            Object linha[] = new Object[]{LocationList.get(i).getDataLocacao(), LocationList.get(i).getHorarioLocacao(), LocationList.get(i).getDataDevolucao(),
+            Object linha[] = new Object[]{LocationList.get(i).getCpfLocacao(),LocationList.get(i).getPlacaLocacao(),LocationList.get(i).getDataLocacao(), LocationList.get(i).getHorarioLocacao(), LocationList.get(i).getDataDevolucao(),
                 LocationList.get(i).getHorarioDevolucao(), LocationList.get(i).getNumeroLocacao()
             };
             modelo.addRow(linha);
@@ -104,6 +104,8 @@ public class Principal extends javax.swing.JFrame {
                 campo_locacao_datadev.setEnabled(false);
                 campo_locacao_horadev.setEnabled(false);
                 campo_locacao_numloc.setEnabled(false);
+                campo_locacao_cpf.setEnabled(false);
+                campo_locacao_placa.setEnabled(false);
                 break;
             case "Novo":
                 botao_locacao_salvar.setEnabled(true);
@@ -116,6 +118,8 @@ public class Principal extends javax.swing.JFrame {
                 campo_locacao_datadev.setEnabled(true);
                 campo_locacao_horadev.setEnabled(true);
                 campo_locacao_numloc.setEnabled(false);
+                campo_locacao_cpf.setEnabled(true);
+                campo_locacao_placa.setEnabled(true);
                 break;
             case "Editar":
                 botao_locacao_salvar.setEnabled(true);
@@ -128,6 +132,8 @@ public class Principal extends javax.swing.JFrame {
                 campo_locacao_datadev.setEnabled(true);
                 campo_locacao_horadev.setEnabled(true);
                 campo_locacao_numloc.setEnabled(false);
+                campo_locacao_cpf.setEnabled(true);
+                campo_locacao_placa.setEnabled(true);
                 break;
             case "Excluir":
                 botao_locacao_salvar.setEnabled(false);
@@ -140,6 +146,8 @@ public class Principal extends javax.swing.JFrame {
                 campo_locacao_datadev.setEnabled(false);
                 campo_locacao_horadev.setEnabled(false);
                 campo_locacao_numloc.setEnabled(false);
+                campo_locacao_cpf.setEnabled(false);
+                campo_locacao_placa.setEnabled(false);
                 break;
             case "Selecao":
                 botao_locacao_salvar.setEnabled(false);
@@ -152,6 +160,8 @@ public class Principal extends javax.swing.JFrame {
                 campo_locacao_datadev.setEnabled(false);
                 campo_locacao_horadev.setEnabled(false);
                 campo_locacao_numloc.setEnabled(false);
+                campo_locacao_cpf.setEnabled(false);
+                campo_locacao_placa.setEnabled(false);
                 break;
             default:
                 System.out.println("Modo inválido");
@@ -326,6 +336,8 @@ public class Principal extends javax.swing.JFrame {
         campo_locacao_datadev.setText("");
         campo_locacao_horadev.setText("");
         campo_locacao_numloc.setText("");
+        campo_locacao_cpf.setText("");
+        campo_locacao_placa.setText("");
     }
 
     public void iniciarCampos() {
@@ -346,6 +358,8 @@ public class Principal extends javax.swing.JFrame {
         campo_locacao_datadev.setText("");
         campo_locacao_horadev.setText("");
         campo_locacao_numloc.setText("");
+        campo_locacao_cpf.setText("");
+        campo_locacao_placa.setText("");
     }
 
     public void gravarInformacaoVeiculo() {
@@ -372,17 +386,19 @@ public class Principal extends javax.swing.JFrame {
 
     public void gravarInformacaoLocacao() {
         File file = new File("Locacao.txt");
-        String dataLocacao, horaLocacao, dataDevolucao, horaDevolucao, numLocacao = ""; // só um exemplo, crie todoas as variaveis que são atributos dos objetos do array list
+        String cpfLocacao, placaLocacao,dataLocacao, horaLocacao, dataDevolucao, horaDevolucao, numLocacao = ""; // só um exemplo, crie todoas as variaveis que são atributos dos objetos do array list
         String conteudo;
         try {
             FileWriter f = new FileWriter(file, true);
             for (int i = 0; i < LocationList.size(); i++) {
+                cpfLocacao = LocationList.get(i).getCpfLocacao();
+                placaLocacao = LocationList.get(i).getPlacaLocacao();
                 dataLocacao = LocationList.get(i).getDataLocacao();
                 horaLocacao = LocationList.get(i).getHorarioLocacao();
                 dataDevolucao = LocationList.get(i).getDataDevolucao();
                 horaDevolucao = LocationList.get(i).getHorarioDevolucao();
                 numLocacao = String.valueOf(LocationList.get(i).getNumeroLocacao());
-                conteudo = dataLocacao + "," + horaLocacao + "," + dataDevolucao + "," + horaDevolucao + "," + numLocacao;
+                conteudo = cpfLocacao+","+placaLocacao+","+dataLocacao + "," + horaLocacao + "," + dataDevolucao + "," + horaDevolucao + "," + numLocacao;
                 conteudo += "\r\n";
                 f.write(conteudo);
             }
@@ -442,7 +458,7 @@ public class Principal extends javax.swing.JFrame {
     }
 
     public void carregarInformacaoLocacao() {
-        String dataLocacao, horaLocacao, dataDevolucao, horaDevolucao, numLocacaoTemp = "";
+        String cpfLocacao, placaLocacao,dataLocacao, horaLocacao, dataDevolucao, horaDevolucao, numLocacaoTemp = "";
         int numLocacao;
         try {
 
@@ -451,13 +467,15 @@ public class Principal extends javax.swing.JFrame {
 
             String str;
             while ((str = br.readLine()) != null) {
-                dataLocacao = (str.split(",")[0]);
-                horaLocacao = (str.split(",")[1]);
-                dataDevolucao = (str.split(",")[2]);
-                horaDevolucao = (str.split(",")[3]);
-                numLocacaoTemp = (str.split(",")[4]);
+                cpfLocacao = (str.split(",")[0]);
+                placaLocacao = (str.split(",")[1]);
+                dataLocacao = (str.split(",")[2]);
+                horaLocacao = (str.split(",")[3]);
+                dataDevolucao = (str.split(",")[4]);
+                horaDevolucao = (str.split(",")[5]);
+                numLocacaoTemp = (str.split(",")[6]);
                 numLocacao = Integer.parseInt(numLocacaoTemp);
-                Locacao D = new Locacao(dataLocacao, horaLocacao, dataDevolucao, horaDevolucao, numLocacao);
+                Locacao D = new Locacao(cpfLocacao,placaLocacao,dataLocacao, horaLocacao, dataDevolucao, horaDevolucao, numLocacao);
                 LocationList.add(D);
             }
             br.close();
@@ -601,6 +619,10 @@ public class Principal extends javax.swing.JFrame {
         campo_locacao_numloc = new javax.swing.JTextField();
         botao_locacao_salvar = new javax.swing.JButton();
         botao_locacao_cancelar = new javax.swing.JButton();
+        jLabel18 = new javax.swing.JLabel();
+        campo_locacao_cpf = new javax.swing.JTextField();
+        jLabel19 = new javax.swing.JLabel();
+        campo_locacao_placa = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -654,10 +676,10 @@ public class Principal extends javax.swing.JFrame {
         });
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel2.setText("Cpf:");
+        jLabel2.setText("CPF:");
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel3.setText("Rg:");
+        jLabel3.setText("RG:");
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel4.setText("Nacionalidade:");
@@ -716,9 +738,9 @@ public class Principal extends javax.swing.JFrame {
                     .addComponent(jLabel6)
                     .addComponent(jLabel5)
                     .addComponent(jLabel4)
-                    .addComponent(jLabel3)
                     .addComponent(jLabel1)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
@@ -1043,14 +1065,14 @@ public class Principal extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Data Locação", "Hora Locação", "Data Devolução", "Hora Devolução", "Número Locação"
+                "Data Locação", "Hora Locação", "Data Devolução", "Hora Devolução", "Número Locação", "Cpf Cliente", "Placa Veículo"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Object.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -1144,28 +1166,40 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
+        jLabel18.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel18.setText("CPF Locação:");
+
+        jLabel19.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel19.setText("Placa Locação:");
+
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
-                .addGap(23, 23, 23)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel17)
-                    .addComponent(jLabel16)
-                    .addComponent(jLabel13)
-                    .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addGroup(jPanel6Layout.createSequentialGroup()
-                            .addGap(10, 10, 10)
+                            .addGap(33, 33, 33)
                             .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addComponent(jLabel14, javax.swing.GroupLayout.Alignment.TRAILING)))
+                        .addComponent(jLabel14, javax.swing.GroupLayout.Alignment.TRAILING))
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGap(23, 23, 23)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel17)
+                            .addComponent(jLabel16)
+                            .addComponent(jLabel13)
+                            .addComponent(jLabel18)
+                            .addComponent(jLabel19))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(campo_locacao_horadev, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
                     .addComponent(campo_locacao_datadev, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(campo_locacao_numloc, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(campo_locacao_horaloc)
-                    .addComponent(campo_locacao_dataloc))
+                    .addComponent(campo_locacao_dataloc)
+                    .addComponent(campo_locacao_cpf, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(campo_locacao_placa, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addGap(53, 53, 53)
                 .addComponent(botao_locacao_salvar, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(41, 41, 41)
@@ -1202,7 +1236,15 @@ public class Principal extends javax.swing.JFrame {
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel17)
                             .addComponent(campo_locacao_numloc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(74, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel18)
+                    .addComponent(campo_locacao_cpf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel19)
+                    .addComponent(campo_locacao_placa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -1420,6 +1462,8 @@ public class Principal extends javax.swing.JFrame {
         int index = table_locacao_locacoes.getSelectedRow();
         if (index >= 0 && index < LocationList.size()) {
             Locacao D = LocationList.get(index);
+            campo_locacao_cpf.setText(D.getCpfLocacao());
+            campo_locacao_placa.setText(D.getPlacaLocacao());
             campo_locacao_dataloc.setText(D.getDataLocacao());
             campo_locacao_horaloc.setText(D.getHorarioLocacao());
             campo_locacao_datadev.setText(D.getDataDevolucao());
@@ -1469,11 +1513,13 @@ public class Principal extends javax.swing.JFrame {
         int numLocacao = (LocationList.size());
         if (modo.equals("Novo")) {
 
-            Locacao D = new Locacao(campo_locacao_dataloc.getText(), campo_locacao_horaloc.getText(), campo_locacao_datadev.getText(), campo_locacao_horadev.getText(),
+            Locacao D = new Locacao(campo_locacao_cpf.getText(),campo_locacao_placa.getText(),campo_locacao_dataloc.getText(), campo_locacao_horaloc.getText(), campo_locacao_datadev.getText(), campo_locacao_horadev.getText(),
                     numLocacao);
             LocationList.add(D);
         } else if (modo.equals("Editar")) {
             int index = table_locacao_locacoes.getSelectedRow();
+            LocationList.get(index).setCpfLocacao(campo_locacao_cpf.getText());
+            LocationList.get(index).setPlacaLocacao(campo_locacao_placa.getText());
             LocationList.get(index).setDataLocacao(campo_locacao_dataloc.getText());
             LocationList.get(index).setHorarioLocacao(campo_locacao_horaloc.getText());
             LocationList.get(index).setDataDevolucao(campo_locacao_datadev.getText());
@@ -1555,11 +1601,13 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JTextField campo_cliente_rg;
     private javax.swing.JTextField campo_cliente_sexo;
     private javax.swing.JTextField campo_cliente_telefone;
+    private javax.swing.JTextField campo_locacao_cpf;
     private javax.swing.JTextField campo_locacao_datadev;
     private javax.swing.JTextField campo_locacao_dataloc;
     private javax.swing.JTextField campo_locacao_horadev;
     private javax.swing.JTextField campo_locacao_horaloc;
     private javax.swing.JTextField campo_locacao_numloc;
+    private javax.swing.JTextField campo_locacao_placa;
     private javax.swing.JTextField campo_veiculo_ano;
     private javax.swing.JTextField campo_veiculo_cor;
     private javax.swing.JTextField campo_veiculo_marca;
@@ -1574,6 +1622,8 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

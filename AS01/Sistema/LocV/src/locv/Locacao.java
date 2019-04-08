@@ -13,7 +13,7 @@ import java.util.ArrayList;
  */
 public class Locacao {
     
-    private String dataLocacao, dataDevolucao,horarioLocacao, horarioDevolucao;
+    private String cpfLocacao, placaLocacao, dataLocacao, dataDevolucao,horarioLocacao, horarioDevolucao;
     private int numeroLocacao;
     ArrayList<Locacao> ListaLocacoes;
     
@@ -22,12 +22,14 @@ public class Locacao {
     }
 
 
-    public Locacao(String dataLocacao, String horarioLocacao,String dataDevolucao, String horarioDevolucao, int numeroLocacao) {
+    public Locacao(String cpfLocacao,String placaLocacao,String dataLocacao, String horarioLocacao,String dataDevolucao, String horarioDevolucao, int numeroLocacao) {
         this.dataLocacao = dataLocacao;
         this.dataDevolucao = dataDevolucao;
         this.horarioLocacao = horarioLocacao;
         this.horarioDevolucao = horarioDevolucao;
         this.numeroLocacao = numeroLocacao;
+        this.cpfLocacao = cpfLocacao;
+        this.placaLocacao = placaLocacao;
     }
 
     public String getDataLocacao() {
@@ -69,6 +71,23 @@ public class Locacao {
     public void setNumeroLocacao(int numeroLocacao) {
         this.numeroLocacao = numeroLocacao;
     }
+
+    public String getCpfLocacao() {
+        return cpfLocacao;
+    }
+
+    public void setCpfLocacao(String cpfLocacao) {
+        this.cpfLocacao = cpfLocacao;
+    }
+
+    public String getPlacaLocacao() {
+        return placaLocacao;
+    }
+
+    public void setPlacaLocacao(String placaLocacao) {
+        this.placaLocacao = placaLocacao;
+    }
+    
     
     
 }
