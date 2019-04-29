@@ -1,4 +1,4 @@
-CREATE DATABASE IF NOT EXISTS projetolocacao;
+﻿CREATE DATABASE IF NOT EXISTS projetolocacao;
 
 CREATE TABLE CLIENTE(
 Nome VARCHAR(100),
@@ -27,7 +27,6 @@ senha VARCHAR[30],
 PRIMARYKEY(id)
 );
 
-);
 
 CREATE TABLE LOCACAO(
 data_locacao DATA,
