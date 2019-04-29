@@ -93,7 +93,7 @@ public class VeiculoDAO {
         List<Veiculo> veiculos = new ArrayList<>();
 
         try {
-            stmt = con.prepareStatement("SELECT * FROM veiculo WHERE modelo LIKE ?");
+            stmt = con.prepareStatement("SELECT * FROM veiculo WHERE marca LIKE ?");
             stmt.setString(1, "%" + marca + "%");
 
             rs = stmt.executeQuery();

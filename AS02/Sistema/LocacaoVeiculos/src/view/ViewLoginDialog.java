@@ -132,7 +132,7 @@ public class ViewLoginDialog extends javax.swing.JDialog {
             new ViewHome().setVisible(true);
             this.dispose();
         }else{
-            JOptionPane.showMessageDialog(null, "Senha incorreta!");
+            JOptionPane.showMessageDialog(null, "Login e senha inseridas não correspondem a um usuario. Tente novamente.");
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 

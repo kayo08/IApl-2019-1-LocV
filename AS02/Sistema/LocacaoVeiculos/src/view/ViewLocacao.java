@@ -12,6 +12,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.Time;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.logging.Level;
@@ -31,6 +32,7 @@ import model.dao.LocacaoDAO;
 public class ViewLocacao extends javax.swing.JFrame {
 
     String modo;
+    String caso = "";
 
     /**
      * Creates new form viewLocacao
@@ -39,7 +41,9 @@ public class ViewLocacao extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         iniciarJanelaLocacao();
+        readJTable();
         modo = "Navegar";
+        manipulaInterfaceLocacao();
         DefaultTableModel modelo = (DefaultTableModel) table_locacao_locacoes.getModel();
         table_locacao_locacoes.setRowSorter(new TableRowSorter(modelo));
     }
@@ -63,13 +67,13 @@ public class ViewLocacao extends javax.swing.JFrame {
         for (Locacao p : pdao.read()) {
 
             modelo.addRow(new Object[]{
+               p.getNumeroLocacao(),
                 p.getCpfLocacao(),
                 p.getPlacaLocacao(),
                 p.getDataLocacao(),
-                p.getDataDevolucao(),
                 p.getHorarioLocacao(),
-                p.getHorarioDevolucao(),
-                p.getNumeroLocacao()
+                p.getDataDevolucao(),
+                p.getHorarioDevolucao()
             });
 
         }
@@ -227,13 +231,13 @@ public class ViewLocacao extends javax.swing.JFrame {
         for (Locacao p : pdao.lerPorCpf(cpf)) {
 
             modelo.addRow(new Object[]{
+                p.getNumeroLocacao(),
                 p.getCpfLocacao(),
                 p.getPlacaLocacao(),
                 p.getDataLocacao(),
                 p.getHorarioLocacao(),
                 p.getDataDevolucao(),
-                p.getHorarioDevolucao(),
-                p.getNumeroLocacao()
+                p.getHorarioDevolucao()
             });
 
         }
@@ -365,29 +369,25 @@ public class ViewLocacao extends javax.swing.JFrame {
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addGroup(jPanel6Layout.createSequentialGroup()
-                            .addGap(33, 33, 33)
-                            .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addComponent(jLabel14, javax.swing.GroupLayout.Alignment.TRAILING))
-                    .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addGap(23, 23, 23)
-                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel17)
-                            .addComponent(jLabel16)
-                            .addComponent(jLabel13)
-                            .addComponent(jLabel18)
-                            .addComponent(jLabel19))))
+                .addGap(25, 25, 25)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel14)
+                    .addComponent(jLabel15)
+                    .addComponent(jLabel13)
+                    .addComponent(jLabel16)
+                    .addComponent(jLabel17)
+                    .addComponent(jLabel18)
+                    .addComponent(jLabel19))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(campo_locacao_datadev)
                     .addComponent(campo_locacao_horadev, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 109, Short.MAX_VALUE)
-                    .addComponent(campo_locacao_datadev, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(campo_locacao_numloc, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(campo_locacao_horaloc)
                     .addComponent(campo_locacao_dataloc)
                     .addComponent(campo_locacao_cpf, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(campo_locacao_placa, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addGap(2, 2, 2)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addGap(140, 140, 140)
@@ -415,38 +415,39 @@ public class ViewLocacao extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(botao_locacao_cancelar)
-                            .addComponent(botao_locacao_salvar)))
+                            .addComponent(botao_locacao_salvar))
+                        .addGap(54, 54, 54)
+                        .addComponent(botao_locacao_menu))
                     .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addGap(28, 28, 28)
+                        .addContainerGap()
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel13)
                             .addComponent(campo_locacao_dataloc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(campo_locacao_horaloc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel14))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel15)
-                            .addComponent(campo_locacao_datadev, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(campo_locacao_datadev, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel15))
+                        .addGap(11, 11, 11)
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel16)
                             .addComponent(campo_locacao_horadev, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel17)
-                            .addComponent(campo_locacao_numloc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel18)
-                    .addComponent(campo_locacao_cpf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(botao_locacao_menu))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel19)
-                    .addComponent(campo_locacao_placa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(17, Short.MAX_VALUE))
+                            .addComponent(campo_locacao_numloc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel18)
+                            .addComponent(campo_locacao_cpf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel19)
+                            .addComponent(campo_locacao_placa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(39, Short.MAX_VALUE))
         );
 
         botao_locacao_excluir.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -551,7 +552,7 @@ public class ViewLocacao extends javax.swing.JFrame {
                         .addComponent(botao_locacao_editar)
                         .addComponent(botao_locacao_excluir)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -570,34 +571,63 @@ public class ViewLocacao extends javax.swing.JFrame {
     }//GEN-LAST:event_campo_locacao_horadevActionPerformed
 
     private void botao_locacao_salvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botao_locacao_salvarActionPerformed
-
-        SimpleDateFormat sdf1 = new SimpleDateFormat("dd-MM-yyyy");
-        java.util.Date dataloc = null;
-        java.util.Date datadev = null;
+        // Formatar horarios
+        SimpleDateFormat formatador = new SimpleDateFormat("HH:mm");
+        java.util.Date hLoc = null;
+        java.util.Date hDev = null;
         try {
-            dataloc = sdf1.parse(campo_locacao_dataloc.getText());
-            datadev = sdf1.parse(campo_locacao_datadev.getText());
+            hLoc = formatador.parse(campo_locacao_horaloc.getText());
+            hDev = formatador.parse(campo_locacao_horadev.getText());
         } catch (ParseException ex) {
             Logger.getLogger(ViewLocacao.class.getName()).log(Level.SEVERE, null, ex);
         }
-        Locacao p = new Locacao();
-        LocacaoDAO dao = new LocacaoDAO();
-        p.setCpfLocacao(campo_locacao_cpf.getText());
-        p.setPlacaLocacao(campo_locacao_placa.getText());
-        p.setDataLocacao((Date) dataloc);
-        p.setDataDevolucao((Date) datadev);
-        p.setHorarioLocacao(Time.valueOf(campo_locacao_horaloc.getText()));
-        p.setHorarioDevolucao(Time.valueOf(campo_locacao_horadev.getText()));
-        p.setNumeroLocacao(Integer.parseInt(campo_locacao_numloc.getText()));
-        dao.create(p);
+        
+        Time time1 = new Time(hLoc.getTime());
+        Time time2 = new Time(hDev.getTime());
+        // Formatar datas
+        DateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
+        java.sql.Date dataloc = null;
+        java.sql.Date datadev = null;
+        try {
+            dataloc = new java.sql.Date(fmt.parse(campo_locacao_dataloc.getText()).getTime());
+            datadev = new java.sql.Date(fmt.parse(campo_locacao_datadev.getText()).getTime());
+        } catch (ParseException ex) {
+            Logger.getLogger(ViewLocacao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if (caso == "Editar") {
+            Locacao p = new Locacao();
+            LocacaoDAO dao = new LocacaoDAO();
+            p.setCpfLocacao(campo_locacao_cpf.getText());
+            p.setPlacaLocacao(campo_locacao_placa.getText());
+            p.setDataLocacao(dataloc);
+            p.setDataDevolucao(datadev);
+            p.setHorarioLocacao(time1);
+            p.setHorarioDevolucao(time2);
+            dao.update(p);
+            readJTable();
+            modo = "Navegar";
+            caso = "";
+            manipulaInterfaceLocacao();
+            limparCamposLocacao();
+        }
 
-        limparCamposLocacao();
+        if (caso == "Salvar") {
+            Locacao p = new Locacao();
+            LocacaoDAO dao = new LocacaoDAO();
+            p.setCpfLocacao(campo_locacao_cpf.getText());
+            p.setPlacaLocacao(campo_locacao_placa.getText());
+            p.setDataLocacao(dataloc);
+            p.setDataDevolucao(datadev);
+            p.setHorarioLocacao(time1);
+            p.setHorarioDevolucao(time2);
+            dao.create(p);
+            limparCamposLocacao();
+            readJTable();
+            modo = "Navegar";
+            manipulaInterfaceLocacao();
+            caso = "";
+        }
 
-        readJTable();
-
-        modo = "Navegar";
-        manipulaInterfaceLocacao();
-        limparCamposLocacao();
     }//GEN-LAST:event_botao_locacao_salvarActionPerformed
 
     private void botao_locacao_cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botao_locacao_cancelarActionPerformed
@@ -623,35 +653,21 @@ public class ViewLocacao extends javax.swing.JFrame {
 
     private void botao_locacao_editarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botao_locacao_editarActionPerformed
         modo = "Editar";
+        caso = "Editar";
         manipulaInterfaceLocacao();
 
-        if (table_locacao_locacoes.getSelectedRow() != -1) {
-
-            Locacao p = new Locacao();
-            LocacaoDAO dao = new LocacaoDAO();
-
-            p.setPlacaLocacao((String) table_locacao_locacoes.getValueAt(table_locacao_locacoes.getSelectedRow(), 2));
-            p.setCpfLocacao((String) table_locacao_locacoes.getValueAt(table_locacao_locacoes.getSelectedRow(), 1));
-            p.setDataLocacao((Date) table_locacao_locacoes.getValueAt(table_locacao_locacoes.getSelectedRow(), 3));
-            p.setDataDevolucao((Date) table_locacao_locacoes.getValueAt(table_locacao_locacoes.getSelectedRow(), 5));
-            p.setHorarioLocacao((Time) table_locacao_locacoes.getValueAt(table_locacao_locacoes.getSelectedRow(), 4));
-            p.setHorarioDevolucao((Time) table_locacao_locacoes.getValueAt(table_locacao_locacoes.getSelectedRow(), 6));
-            p.setNumeroLocacao((int) table_locacao_locacoes.getValueAt(table_locacao_locacoes.getSelectedRow(), 0));
-            dao.update(p);
-            limparCamposLocacao();
-
-            readJTable();
-
-        }
     }//GEN-LAST:event_botao_locacao_editarActionPerformed
 
     private void botao_locacao_novoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botao_locacao_novoActionPerformed
         limparCamposLocacao();
         modo = "Novo";
+        caso = "Salvar";
         manipulaInterfaceLocacao();
     }//GEN-LAST:event_botao_locacao_novoActionPerformed
 
     private void table_locacao_locacoesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_table_locacao_locacoesMouseClicked
+        modo = "Selecao";
+        manipulaInterfaceLocacao();
         if (table_locacao_locacoes.getSelectedRow() != -1) {
 
             campo_locacao_numloc.setText(table_locacao_locacoes.getValueAt(table_locacao_locacoes.getSelectedRow(), 0).toString());
@@ -691,11 +707,15 @@ public class ViewLocacao extends javax.swing.JFrame {
     }//GEN-LAST:event_botao_locacao_menuActionPerformed
 
     private void botao_locacao_exportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botao_locacao_exportarActionPerformed
-        gravarInformacaoLocacao();
+        //gravarInformacaoLocacao();
+        String janela = "Locacao";
+        new ViewExport(janela).setVisible(true);
     }//GEN-LAST:event_botao_locacao_exportarActionPerformed
 
     private void botao_locacao_importarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botao_locacao_importarActionPerformed
-        carregarInformacaoLocacao();
+        //carregarInformacaoLocacao();
+        String janela = "Locacao";
+        new ViewImport(janela).setVisible(true);
     }//GEN-LAST:event_botao_locacao_importarActionPerformed
 
     /**

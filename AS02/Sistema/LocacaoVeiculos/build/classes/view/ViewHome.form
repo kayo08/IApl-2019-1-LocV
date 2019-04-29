@@ -128,6 +128,9 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Sair"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botao_home_sairActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

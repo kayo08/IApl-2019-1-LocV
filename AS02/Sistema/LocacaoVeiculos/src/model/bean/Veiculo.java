@@ -4,17 +4,27 @@
  * and open the template in the editor.
  */
 package model.bean;
-
-import java.sql.Date;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
 import json.JSONObject;
 
 /**
  *
  * @author Murilo
  */
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Veiculo {
-    
-    private String marca, modelo, placa, cor;
+    @XmlAttribute
+    private String placa;
+    @XmlElement
+    private String modelo;
+    @XmlElement
+    private String marca;
+    @XmlElement
+    private String cor;
+    @XmlElement
     private int ano;
 
         public Veiculo(){

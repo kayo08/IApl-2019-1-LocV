@@ -5,12 +5,14 @@
  */
 package view;
 
+import static com.sun.corba.se.spi.presentation.rmi.StubAdapter.request;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.Date;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.logging.Level;
@@ -30,6 +32,7 @@ import model.dao.ClienteDAO;
 public class ViewCliente extends javax.swing.JFrame {
 
     String modo;
+    String caso;
 
     /**
      * Creates new form viewCliente
@@ -38,7 +41,9 @@ public class ViewCliente extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         iniciarJanelaCliente();
+        readJTable();
         modo = "Navegar";
+        manipulaInterfaceCliente();
         DefaultTableModel modelo = (DefaultTableModel) table_cliente_clientes.getModel();
         table_cliente_clientes.setRowSorter(new TableRowSorter(modelo));
     }
@@ -139,8 +144,8 @@ public class ViewCliente extends javax.swing.JFrame {
                 p.getRg(),
                 p.getNacionalidade(),
                 p.getTelefone(),
-                p.getSexo(),
-                p.getNascimento()
+                p.getNascimento(),
+                p.getSexo()
             });
 
         }
@@ -488,7 +493,7 @@ public class ViewCliente extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Nome", "Cpf", "Rg", "Nacionalidade", "Telefone", "Nascimento", "Sexo"
+                "Nome", "Cpf", "Rg", "Nacionalidade", "Telefone", "Sexo", "Nascimento"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -574,15 +579,14 @@ public class ViewCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_campo_cliente_nascimentoActionPerformed
 
     private void botao_cliente_salvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botao_cliente_salvarActionPerformed
-
-        SimpleDateFormat sdf1 = new SimpleDateFormat("dd-MM-yyyy");
-        java.util.Date date = null;
+        DateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
+        java.sql.Date data = null;
         try {
-            date = sdf1.parse(campo_cliente_nascimento.getText());
+            data = new java.sql.Date(fmt.parse(campo_cliente_nascimento.getText()).getTime());
         } catch (ParseException ex) {
             Logger.getLogger(ViewCliente.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
+        }       
+        if(caso == "Editar"){
         Cliente p = new Cliente();
         ClienteDAO dao = new ClienteDAO();
         p.setNome(campo_cliente_nome.getText());
@@ -591,16 +595,31 @@ public class ViewCliente extends javax.swing.JFrame {
         p.setNacionalidade(campo_cliente_nacionalidade.getText());
         p.setTelefone(campo_cliente_telefone.getText());
         p.setSexo(campo_cliente_sexo.getText());
-        p.setNascimento((Date) date);
-        dao.create(p);
-
-        limparCamposCliente();
-
+        p.setNascimento(data);
+        dao.update(p);
         readJTable();
-
+        caso = "";
         modo = "Navegar";
         manipulaInterfaceCliente();
         limparCamposCliente();
+        }
+        if(caso == "Salvar"){
+        Cliente p = new Cliente();
+        ClienteDAO dao = new ClienteDAO();
+        p.setNome(campo_cliente_nome.getText());
+        p.setCpf(campo_cliente_cpf.getText());
+        p.setRg(campo_cliente_rg.getText());
+        p.setNacionalidade(campo_cliente_nacionalidade.getText());
+        p.setTelefone(campo_cliente_telefone.getText());
+        p.setSexo(campo_cliente_sexo.getText());
+        p.setNascimento(data);
+        dao.create(p);
+        limparCamposCliente();
+        readJTable();
+        modo = "Navegar";
+        caso = "";
+        manipulaInterfaceCliente();
+        }
     }//GEN-LAST:event_botao_cliente_salvarActionPerformed
 
     private void botao_cliente_cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botao_cliente_cancelarActionPerformed
@@ -612,29 +631,13 @@ public class ViewCliente extends javax.swing.JFrame {
     private void botao_cliente_editarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botao_cliente_editarActionPerformed
         modo = "Editar";
         manipulaInterfaceCliente();
-
-        if (table_cliente_clientes.getSelectedRow() != -1) {
-
-            Cliente p = new Cliente();
-            ClienteDAO dao = new ClienteDAO();
-            p.setNome(campo_cliente_nome.getText());
-            p.setRg(campo_cliente_rg.getText());
-            p.setNacionalidade(campo_cliente_nacionalidade.getText());
-            p.setTelefone(campo_cliente_telefone.getText());
-            p.setSexo(campo_cliente_sexo.getText());
-            p.setNascimento((Date) table_cliente_clientes.getValueAt(table_cliente_clientes.getSelectedRow(), 5));
-            p.setCpf((String) table_cliente_clientes.getValueAt(table_cliente_clientes.getSelectedRow(), 1));
-            dao.update(p);
-            limparCamposCliente();
-
-            readJTable();
-
-        }
+        caso = "Editar";
     }//GEN-LAST:event_botao_cliente_editarActionPerformed
 
     private void botao_cliente_novoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botao_cliente_novoActionPerformed
         limparCamposCliente();
         modo = "Novo";
+        caso = "Salvar";
         manipulaInterfaceCliente();
     }//GEN-LAST:event_botao_cliente_novoActionPerformed
 
@@ -655,8 +658,9 @@ public class ViewCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_botao_cliente_excluirActionPerformed
 
     private void table_cliente_clientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_table_cliente_clientesMouseClicked
+       modo = "Selecao";
+        manipulaInterfaceCliente();
         if (table_cliente_clientes.getSelectedRow() != -1) {
-
             campo_cliente_nome.setText(table_cliente_clientes.getValueAt(table_cliente_clientes.getSelectedRow(), 0).toString());
             campo_cliente_cpf.setText(table_cliente_clientes.getValueAt(table_cliente_clientes.getSelectedRow(), 1).toString());
             campo_cliente_rg.setText(table_cliente_clientes.getValueAt(table_cliente_clientes.getSelectedRow(), 2).toString());
@@ -691,11 +695,15 @@ public class ViewCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_botao_cliente_menuActionPerformed
 
     private void botao_cliente_exportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botao_cliente_exportarActionPerformed
-        gravarInformacaoCliente();
+        //gravarInformacaoCliente();
+        String janela = "Cliente";
+        new ViewExport(janela).setVisible(true);
     }//GEN-LAST:event_botao_cliente_exportarActionPerformed
 
     private void botao_cliente_importarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botao_cliente_importarActionPerformed
-        carregarInformacaoCliente();
+        //carregarInformacaoCliente();
+        String janela = "Cliente";
+        new ViewImport(janela).setVisible(true);
     }//GEN-LAST:event_botao_cliente_importarActionPerformed
 
     /**

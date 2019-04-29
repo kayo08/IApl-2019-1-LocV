@@ -10,7 +10,6 @@ package view;
  * @author Murilo
  */
 public class ViewHome extends javax.swing.JFrame {
-
     /**
      * Creates new form viewHome
      */
@@ -69,6 +68,11 @@ public class ViewHome extends javax.swing.JFrame {
 
         botao_home_sair.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         botao_home_sair.setText("Sair");
+        botao_home_sair.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botao_home_sairActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -116,19 +120,27 @@ public class ViewHome extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void botao_home_veiculosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botao_home_veiculosActionPerformed
-         new ViewVeiculo().setVisible(true);
+
+        new ViewVeiculo().setVisible(true);
             this.dispose();
     }//GEN-LAST:event_botao_home_veiculosActionPerformed
 
     private void botao_home_locacoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botao_home_locacoesActionPerformed
+
         new ViewLocacao().setVisible(true);
+        
             this.dispose();
     }//GEN-LAST:event_botao_home_locacoesActionPerformed
 
     private void botao_home_clientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botao_home_clientesActionPerformed
-            new ViewCliente().setVisible(true);
+
+        new ViewCliente().setVisible(true);
             this.dispose();
     }//GEN-LAST:event_botao_home_clientesActionPerformed
+
+    private void botao_home_sairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botao_home_sairActionPerformed
+    System.exit(0);
+    }//GEN-LAST:event_botao_home_sairActionPerformed
 
     /**
      * @param args the command line arguments

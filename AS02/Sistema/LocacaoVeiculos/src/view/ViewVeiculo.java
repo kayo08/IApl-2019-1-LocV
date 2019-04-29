@@ -25,6 +25,7 @@ import model.dao.VeiculoDAO;
 public class ViewVeiculo extends javax.swing.JFrame {
 
     String modo;
+    String caso;
 
     /**
      * Creates new form viewVeiculo
@@ -33,9 +34,12 @@ public class ViewVeiculo extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         iniciarJanelaVeiculo();
+        readJTable();
         modo = "Navegar";
+        manipulaInterfaceVeiculo();
         DefaultTableModel modelo = (DefaultTableModel) table_veiculo_veiculos.getModel();
         table_veiculo_veiculos.setRowSorter(new TableRowSorter(modelo));
+
     }
 
     /**
@@ -514,6 +518,25 @@ public class ViewVeiculo extends javax.swing.JFrame {
     }//GEN-LAST:event_campo_veiculo_corActionPerformed
 
     private void botao_veiculo_salvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botao_veiculo_salvarActionPerformed
+        if (caso == "Editar") {
+            if (table_veiculo_veiculos.getSelectedRow() != -1) {
+
+                Veiculo p = new Veiculo();
+                VeiculoDAO dao = new VeiculoDAO();
+                p.setMarca(campo_veiculo_marca.getText());
+                p.setModelo(campo_veiculo_modelo.getText());
+                p.setPlaca(campo_veiculo_placa.getText());
+                p.setCor(campo_veiculo_cor.getText());
+                p.setAno(Integer.parseInt(campo_veiculo_ano.getText()));
+                dao.update(p);
+                readJTable();
+                caso = "";
+                modo = "Navegar";
+                manipulaInterfaceVeiculo();
+                limparCamposVeiculo();
+            }
+        }
+        if(caso == "Salvar"){
         Veiculo p = new Veiculo();
         VeiculoDAO dao = new VeiculoDAO();
         p.setMarca(campo_veiculo_marca.getText());
@@ -522,14 +545,12 @@ public class ViewVeiculo extends javax.swing.JFrame {
         p.setCor(campo_veiculo_cor.getText());
         p.setAno(Integer.parseInt(campo_veiculo_ano.getText()));
         dao.create(p);
-
         limparCamposVeiculo();
-
         readJTable();
-
+        caso = "";
         modo = "Navegar";
         manipulaInterfaceVeiculo();
-        limparCamposVeiculo();
+        }
     }//GEN-LAST:event_botao_veiculo_salvarActionPerformed
 
     private void botao_veiculo_cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botao_veiculo_cancelarActionPerformed
@@ -539,6 +560,8 @@ public class ViewVeiculo extends javax.swing.JFrame {
     }//GEN-LAST:event_botao_veiculo_cancelarActionPerformed
 
     private void table_veiculo_veiculosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_table_veiculo_veiculosMouseClicked
+        modo = "Selecao";
+        manipulaInterfaceVeiculo();
         if (table_veiculo_veiculos.getSelectedRow() != -1) {
 
             campo_veiculo_marca.setText(table_veiculo_veiculos.getValueAt(table_veiculo_veiculos.getSelectedRow(), 0).toString());
@@ -552,26 +575,12 @@ public class ViewVeiculo extends javax.swing.JFrame {
     private void botao_veiculo_editarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botao_veiculo_editarActionPerformed
         modo = "Editar";
         manipulaInterfaceVeiculo();
-
-        if (table_veiculo_veiculos.getSelectedRow() != -1) {
-
-            Veiculo p = new Veiculo();
-            VeiculoDAO dao = new VeiculoDAO();
-            p.setCor((String) table_veiculo_veiculos.getValueAt(table_veiculo_veiculos.getSelectedRow(), 3));
-            p.setModelo((String) table_veiculo_veiculos.getValueAt(table_veiculo_veiculos.getSelectedRow(), 1));
-            p.setMarca((String) table_veiculo_veiculos.getValueAt(table_veiculo_veiculos.getSelectedRow(), 0));
-            p.setAno((int) table_veiculo_veiculos.getValueAt(table_veiculo_veiculos.getSelectedRow(), 4));
-            p.setPlaca((String) table_veiculo_veiculos.getValueAt(table_veiculo_veiculos.getSelectedRow(), 2));
-            dao.update(p);
-            limparCamposVeiculo();
-
-            readJTable();
-
-        }
+        caso = "Editar";
     }//GEN-LAST:event_botao_veiculo_editarActionPerformed
 
     private void botao_veiculo_novoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botao_veiculo_novoActionPerformed
         limparCamposVeiculo();
+        caso = "Salvar";
         modo = "Novo";
         manipulaInterfaceVeiculo();
     }//GEN-LAST:event_botao_veiculo_novoActionPerformed
@@ -615,11 +624,15 @@ public class ViewVeiculo extends javax.swing.JFrame {
     }//GEN-LAST:event_botao_veiculo_menuActionPerformed
 
     private void botao_veiculo_exportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botao_veiculo_exportarActionPerformed
-        gravarInformacaoVeiculo();
+       // gravarInformacaoVeiculo();
+        String janela = "Veiculo";
+        new ViewExport(janela).setVisible(true);
     }//GEN-LAST:event_botao_veiculo_exportarActionPerformed
 
     private void botao_veiculo_importarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botao_veiculo_importarActionPerformed
-        carregarInformacaoVeiculo();
+        //carregarInformacaoVeiculo();
+        String janela = "Veiculo";
+        new ViewImport(janela).setVisible(true);
     }//GEN-LAST:event_botao_veiculo_importarActionPerformed
 
     /**
