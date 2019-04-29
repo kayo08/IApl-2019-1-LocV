@@ -144,8 +144,8 @@ public class ViewCliente extends javax.swing.JFrame {
                 p.getRg(),
                 p.getNacionalidade(),
                 p.getTelefone(),
-                p.getNascimento(),
-                p.getSexo()
+                p.getSexo(),
+                p.getNascimento()   
             });
 
         }

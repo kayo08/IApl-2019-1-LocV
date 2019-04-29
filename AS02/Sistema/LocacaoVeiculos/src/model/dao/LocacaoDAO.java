@@ -38,8 +38,6 @@ public class LocacaoDAO {
             stmt.setTime(5, p.getHorarioLocacao());
             stmt.setTime(6, p.getHorarioDevolucao());
             stmt.executeUpdate();
-
-            JOptionPane.showMessageDialog(null, "Salvo com sucesso!");
         } catch (SQLException ex) {
             System.out.println(ex);
         } finally {

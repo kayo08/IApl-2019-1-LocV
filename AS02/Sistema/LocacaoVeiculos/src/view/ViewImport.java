@@ -6,10 +6,17 @@
 package view;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.Time;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.scene.input.DataFormat;
 import javax.swing.JOptionPane;
 import json.JSONArray;
 import json.JSONObject;
@@ -34,6 +41,7 @@ public class ViewImport extends javax.swing.JFrame {
     public ViewImport(String janela) {
         this.janela = janela;
         initComponents();
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -119,61 +127,73 @@ public class ViewImport extends javax.swing.JFrame {
                     VeiculoDAO pdao = new VeiculoDAO();
                     FileReader fr = new FileReader("Veiculo.json");
                     BufferedReader br = new BufferedReader(fr);
-
                     String str;
                     while ((str = br.readLine()) != null) {
                         Veiculo p = new Veiculo();
-                        JSONArray json = new JSONArray(str.toString());
-                        for (int i = 0; i < json.length(); i++) {
-                            JSONObject obj = json.getJSONObject(i);
-                            p.setMarca(obj.getString("marca"));
-                            p.setModelo(obj.getString("modelo"));
-                            p.setPlaca(obj.getString("placa"));
-                            p.setCor(obj.getString("cor"));
-                            p.setAno(obj.getInt("ano"));
-                            if (i + 1 == json.length()) {
-                                pdao.create(p);
-                            }
-                        }
+                        JSONObject json = new JSONObject(str);
+                        p.setMarca(json.getString("marca"));
+                        p.setModelo(json.getString("modelo"));
+                        p.setPlaca(json.getString("placa"));
+                        p.setCor(json.getString("cor"));
+                        p.setAno(json.getInt("ano"));
+                        pdao.create(p);
                     }
                     br.close();
                     JOptionPane.showMessageDialog(null, "Dados Importados com sucesso!");
+
                 } catch (IOException e) {
                     JOptionPane.showMessageDialog(null, "Não foi possível realizar esta ação");
                 }
+                new ViewVeiculo().setVisible(true);
+                this.dispose();
                 break;
             case "Cliente":
                 try {
+                    DateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
+                    java.sql.Date dataNascimento = null;
                     ClienteDAO pdao = new ClienteDAO();
                     FileReader fr = new FileReader("Cliente.json");
                     BufferedReader br = new BufferedReader(fr);
-
                     String str;
                     while ((str = br.readLine()) != null) {
+                        String tempNascimento;
                         Cliente p = new Cliente();
-                        JSONArray json = new JSONArray(str.toString());
-                        for (int i = 0; i < json.length(); i++) {
-                            JSONObject obj = json.getJSONObject(i);
-                            p.setNome(obj.getString("nome"));
-                            p.setCpf(obj.getString("cpf"));
-                            p.setRg(obj.getString("rg"));
-                            p.setNacionalidade(obj.getString("nacionalidade"));
-                            p.setTelefone(obj.getString("telefone"));
-                            p.setSexo(obj.getString("sexo"));
-                            p.setNascimento((Date) obj.get("ano"));
-                            if (i + 1 == json.length()) {
-                                pdao.create(p);
-                            }
+                        JSONObject json = new JSONObject(str);
+                        tempNascimento = json.getString("nascimento");
+                        try {
+                            dataNascimento = new java.sql.Date(fmt.parse(tempNascimento).getTime());
+                        } catch (ParseException ex) {
+                            Logger.getLogger(ViewImport.class.getName()).log(Level.SEVERE, null, ex);
                         }
+
+                        p.setNome(json.getString("nome"));
+                        p.setCpf(json.getString("cpf"));
+                        p.setRg(json.getString("rg"));
+                        p.setNacionalidade(json.getString("nacionalidade"));
+                        p.setTelefone(json.getString("telefone"));
+                        p.setSexo(json.getString("sexo"));
+                        p.setNascimento(dataNascimento);
+                        pdao.create(p);
                     }
                     br.close();
                     JOptionPane.showMessageDialog(null, "Dados Importados com sucesso!");
                 } catch (IOException e) {
                     JOptionPane.showMessageDialog(null, "Não foi possível realizar esta ação");
                 }
+                new ViewCliente().setVisible(true);
+                this.dispose();
                 break;
             case "Locacao":
                 try {
+
+                    // Formatar horarios
+                    SimpleDateFormat formatador = new SimpleDateFormat("HH:mm");
+                    DateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
+                    java.util.Date hLoc = null;
+                    java.util.Date hDev = null;
+                    String locD, devD, locH, devH;
+                    java.sql.Date dataloc = null;
+                    java.sql.Date datadev = null;
                     LocacaoDAO pdao = new LocacaoDAO();
                     FileReader fr = new FileReader("Locacao.json");
                     BufferedReader br = new BufferedReader(fr);
@@ -181,27 +201,37 @@ public class ViewImport extends javax.swing.JFrame {
                     String str;
                     while ((str = br.readLine()) != null) {
                         Locacao p = new Locacao();
-                        JSONArray json = new JSONArray(str.toString());
-                        for (int i = 0; i < json.length(); i++) {
-                            JSONObject obj = json.getJSONObject(i);
-                            p.setNumeroLocacao(obj.getInt("numero_locacao"));
-                            p.setCpfLocacao(obj.getString("cpf_locacao"));
-                            p.setPlacaLocacao(obj.getString("placa_locacao"));
-                            p.setDataLocacao((Date) obj.get("data_locacao"));
-                            p.setDataDevolucao((Date) obj.get("data_devolucao"));
-                            p.setHorarioLocacao((Time) obj.get("hora_locacao"));
-                            p.setHorarioDevolucao((Time) obj.get("hora_devolucao"));
-
-                            if (i + 1 == json.length()) {
-                                pdao.create(p);
-                            }
+                        JSONObject json = new JSONObject(str);
+                        locD = json.getString("data_locacao");
+                        devD = json.getString("data_devolucao");
+                        locH = json.getString("hora_locacao");
+                        devH = json.getString("hora_devolucao");
+                        try {
+                            hLoc = formatador.parse(locH);
+                            hDev = formatador.parse(devH);
+                            dataloc = new java.sql.Date(fmt.parse(locD).getTime());
+                            datadev = new java.sql.Date(fmt.parse(devD).getTime());
+                        } catch (ParseException ex) {
+                            Logger.getLogger(ViewImport.class.getName()).log(Level.SEVERE, null, ex);
                         }
+                        Time time1 = new Time(hLoc.getTime());
+                        Time time2 = new Time(hDev.getTime());
+                        p.setNumeroLocacao(json.getInt("numero_locacao"));
+                        p.setCpfLocacao(json.getString("cpf_locacao"));
+                        p.setPlacaLocacao(json.getString("placa_locacao"));
+                        p.setDataLocacao(dataloc);
+                        p.setDataDevolucao(datadev);
+                        p.setHorarioLocacao(time1);
+                        p.setHorarioDevolucao(time2);
+                        pdao.create(p);
                     }
                     br.close();
                     JOptionPane.showMessageDialog(null, "Dados Importados com sucesso!");
                 } catch (IOException e) {
                     JOptionPane.showMessageDialog(null, "Não foi possível realizar esta ação");
                 }
+                new ViewLocacao().setVisible(true);
+                this.dispose();
                 break;
             default:
                 System.out.println("Janela inválida");

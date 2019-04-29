@@ -27,7 +27,7 @@ public class Cliente {
         this.nacionalidade = json.getString("nacionalidade");
         this.telefone = json.getString("telefone");
         this.sexo = json.getString("sexo");
-        this.nascimento = (Date)json.get("nascimento");
+        this.nascimento = (Date) json.get("nascimento");
     }
 
     public JSONObject toJson() {

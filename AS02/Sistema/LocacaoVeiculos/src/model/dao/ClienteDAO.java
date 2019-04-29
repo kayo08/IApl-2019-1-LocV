@@ -39,8 +39,6 @@ public class ClienteDAO {
             stmt.setString(6, p.getSexo());
             stmt.setDate(7, p.getNascimento());
             stmt.executeUpdate();
-
-            JOptionPane.showMessageDialog(null, "Salvo com sucesso!");
         } catch (SQLException ex) {
             System.out.println(ex);
         } finally {

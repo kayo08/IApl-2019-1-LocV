@@ -36,10 +36,7 @@ public class VeiculoDAO {
             stmt.setString(3, p.getPlaca());
             stmt.setString(4, p.getCor());
             stmt.setInt(5, p.getAno());
-
             stmt.executeUpdate();
-
-            JOptionPane.showMessageDialog(null, "Salvo com sucesso!");
         } catch (SQLException ex) {
             System.out.println(ex);
         } finally {

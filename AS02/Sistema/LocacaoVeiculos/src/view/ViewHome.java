@@ -43,7 +43,7 @@ public class ViewHome extends javax.swing.JFrame {
         jLabel2.setText("Bem vindo!");
 
         botao_home_veiculos.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        botao_home_veiculos.setText("Gerenciar veículos");
+        botao_home_veiculos.setText("Gerenciar Veículos");
         botao_home_veiculos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botao_home_veiculosActionPerformed(evt);
@@ -83,7 +83,7 @@ public class ViewHome extends javax.swing.JFrame {
                 .addComponent(botao_home_veiculos)
                 .addGap(36, 36, 36)
                 .addComponent(botao_home_clientes)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
                 .addComponent(botao_home_locacoes)
                 .addGap(57, 57, 57))
             .addGroup(layout.createSequentialGroup()
