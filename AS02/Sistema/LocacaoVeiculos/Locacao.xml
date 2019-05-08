@@ -1,0 +1,8 @@
+<Locacao numeroLocacao="1">
+  <cpfLocacao>700.674.591-88</cpfLocacao>
+  <placaLocacao>KPR-2993   </placaLocacao>
+  <dataLocacao>08/05/2019</dataLocacao>
+  <dataDevolucao>15/05/2019</dataDevolucao>
+  <horarioLocacao>01:31:00</horarioLocacao>
+  <horarioDevolucao>02:00:00</horarioDevolucao>
+</Locacao>
