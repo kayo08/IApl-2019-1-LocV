@@ -366,15 +366,51 @@ public class Principal extends javax.swing.JFrame {
         File file = new File("Veiculo.txt");
         String marca, modelo, placa, cor, ano = ""; // só um exemplo, crie todoas as variaveis que são atributos dos objetos do array list
         String conteudo;
+        String espacosm = "";
+        String espacosmo = "";
+        String espacosp = "";
+        String espacosc = "";
+        String espacosa = "";
         try {
             FileWriter f = new FileWriter(file, true);
             for (int i = 0; i < VehicleList.size(); i++) {
+                //Marca
                 marca = VehicleList.get(i).getMarca();
+                int tamanho_m = 100 - marca.length();
+                for (int ii = 0; ii < tamanho_m; ii++){
+                    espacosm+=" ";
+                }
+                marca+=espacosm;
+                //Modelo
                 modelo = VehicleList.get(i).getModelo();
+                int tamanho_mo = 100 - modelo.length();
+                for (int ii = 0; ii < tamanho_mo; ii++ ){
+                    espacosmo+=" ";
+                }
+                modelo+=espacosmo;
+                //Placa
                 placa = VehicleList.get(i).getPlaca();
+                int tamanho_p = 12 - placa.length();
+                for (int ii = 0; ii < tamanho_p; ii++){
+                    espacosp+=" ";
+                }
+                placa+=espacosp;
+                //Cor
                 cor = VehicleList.get(i).getCor();
+                int tamanho_c = 30 - cor.length();
+                for (int ii=0; ii < tamanho_c; ii++){
+                    espacosc+=" ";
+                }
+                cor+=espacosp;
+                //Ano
                 ano = String.valueOf(VehicleList.get(i).getAno());
-                conteudo = marca + "," + modelo + "," + placa + "," + cor + "," + ano;
+                int tamanho_ano = 4 - ano.length();
+                for (int ii = 0; ii < tamanho_ano; ii++){
+                    espacosa+=" ";
+                }
+                ano+=espacosa;
+                
+                conteudo = marca + modelo + placa + cor + ano;
                 conteudo += "\r\n";
                 f.write(conteudo);
             }
