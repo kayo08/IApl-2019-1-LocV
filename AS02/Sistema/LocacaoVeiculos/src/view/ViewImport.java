@@ -259,7 +259,6 @@ public class ViewImport extends javax.swing.JFrame {
             default:
                 System.out.println("Janela inválida");
         }
-        this.dispose();
 
     }//GEN-LAST:event_botao_import_jsonActionPerformed
 
@@ -271,7 +270,7 @@ public class ViewImport extends javax.swing.JFrame {
                 String marca,
                  modelo,
                  placa,
-                 cor;
+                 cor, tempAno;
                 VeiculoDAO dao = new VeiculoDAO();
                 int ano;
                 try {
@@ -403,7 +402,6 @@ public class ViewImport extends javax.swing.JFrame {
             default:
                 System.out.println("Janela inválida");
         }
-        this.dispose();
     }//GEN-LAST:event_botao_import_txtActionPerformed
 
     private void botao_import_xmlActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botao_import_xmlActionPerformed
@@ -437,7 +435,6 @@ public class ViewImport extends javax.swing.JFrame {
             default:
                 System.out.println("Janela inválida");
         }
-        this.dispose();
     }//GEN-LAST:event_botao_import_xmlActionPerformed
 
     private void botao_import_cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botao_import_cancelarActionPerformed

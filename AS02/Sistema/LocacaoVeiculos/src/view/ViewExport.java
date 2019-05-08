@@ -142,6 +142,8 @@ public class ViewExport extends javax.swing.JFrame {
         switch (janela) {
             case "Veiculo":
                 File veiculo = new File("Veiculo.json");
+                if(veiculo.exists())
+                veiculo.delete();
                 String conteudoVeiculo;
                 try {
 
@@ -158,9 +160,13 @@ public class ViewExport extends javax.swing.JFrame {
                 } catch (IOException e) {
                     JOptionPane.showMessageDialog(null, "Não foi possível realizar esta ação");
                 }
+                new ViewVeiculo().setVisible(true);
+                this.dispose();
                 break;
             case "Cliente":
                 File cliente = new File("Cliente.json");
+                if(cliente.exists())
+                cliente.delete();
                 String conteudoCliente;
                 try {
 
@@ -177,9 +183,13 @@ public class ViewExport extends javax.swing.JFrame {
                 } catch (IOException e) {
                     JOptionPane.showMessageDialog(null, "Não foi possível realizar esta ação");
                 }
+                new ViewCliente().setVisible(true);
+                this.dispose();
                 break;
             case "Locacao":
                 File locacao = new File("Locacao.json");
+               if(locacao.exists())
+                locacao.delete();
                 String conteudoLocacao;
                 try {
 
@@ -196,17 +206,20 @@ public class ViewExport extends javax.swing.JFrame {
                 } catch (IOException e) {
                     JOptionPane.showMessageDialog(null, "Não foi possível realizar esta ação");
                 }
+                new ViewLocacao().setVisible(true);
+                this.dispose();
                 break;
             default:
                 System.out.println("Janela inválida");
         }
-        this.dispose();
     }//GEN-LAST:event_botao_exportar_jsonActionPerformed
 
     private void botao_exportar_xmlActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botao_exportar_xmlActionPerformed
         switch (janela) {
             case "Veiculo":
                 File veiculoFile = new File("Veiculo.xml");
+                if(veiculoFile.exists())
+                veiculoFile.delete();
                 VeiculoDAO pdao = new VeiculoDAO();
                  {
                     try {
@@ -224,9 +237,13 @@ public class ViewExport extends javax.swing.JFrame {
                         JOptionPane.showMessageDialog(null, "Não foi possível realizar esta ação");
                     }
                 }
+                new ViewVeiculo().setVisible(true);
+                this.dispose();
                 break;
             case "Cliente":
                 File ClienteFile = new File("Cliente.xml");
+                if(ClienteFile.exists())
+                ClienteFile.delete();
                 ClienteDAO pdaoCliente = new ClienteDAO();
                  {
                     try {
@@ -244,9 +261,13 @@ public class ViewExport extends javax.swing.JFrame {
                         JOptionPane.showMessageDialog(null, "Não foi possível realizar esta ação");
                     }
                 }
+                new ViewCliente().setVisible(true);
+                this.dispose();
                 break;
             case "Locacao":
                 File LocacaoFile = new File("Locacao.xml");
+                 if(LocacaoFile.exists())
+                LocacaoFile.delete();
                 LocacaoDAO pdaoLocacao = new LocacaoDAO();
                  {
                     try {
@@ -264,11 +285,12 @@ public class ViewExport extends javax.swing.JFrame {
                         JOptionPane.showMessageDialog(null, "Não foi possível realizar esta ação");
                     }
                 }
+                 new ViewLocacao().setVisible(true);
+                this.dispose();
                 break;
             default:
                 System.out.println("Janela inválida");
         }
-        this.dispose();
     }//GEN-LAST:event_botao_exportar_xmlActionPerformed
 
     private void botao_exportar_txtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botao_exportar_txtActionPerformed
@@ -278,6 +300,8 @@ public class ViewExport extends javax.swing.JFrame {
         switch (janela) {
             case "Veiculo":
                 File veiculoFile = new File("Veiculo.txt");
+                if(veiculoFile.exists())
+                veiculoFile.delete();
                 String marca,
                  conteudoVeiculo = "",
                  modelo,
@@ -339,9 +363,13 @@ public class ViewExport extends javax.swing.JFrame {
                         JOptionPane.showMessageDialog(null, "Não foi possível realizar esta ação");
                     }
                 }
+                new ViewVeiculo().setVisible(true);
+                this.dispose();
                 break;
             case "Cliente":
                 File clienteFile = new File("Cliente.txt");
+                if(clienteFile.exists())
+                clienteFile.delete();
                 String conteudoCliente = "",
                  cpf,
                  nome,
@@ -425,9 +453,13 @@ public class ViewExport extends javax.swing.JFrame {
                         Logger.getLogger(ViewExport.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
+                new ViewCliente().setVisible(true);
+                this.dispose();
                 break;
             case "Locacao":
                 File locacaoFile = new File("Locacao.txt");
+                if(locacaoFile.exists())
+                locacaoFile.delete();
                 String conteudoLocacao = "",
                  cpfLocacao,
                  placaLocacao,
@@ -517,12 +549,12 @@ public class ViewExport extends javax.swing.JFrame {
                         Logger.getLogger(ViewExport.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
-
+                new ViewLocacao().setVisible(true);
+                this.dispose();
                 break;
             default:
                 System.out.println("Janela inválida");
         }
-        this.dispose();
     }//GEN-LAST:event_botao_exportar_txtActionPerformed
 
     private void botao_export_cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botao_export_cancelarActionPerformed
