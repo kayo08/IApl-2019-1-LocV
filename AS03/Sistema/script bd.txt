@@ -21,25 +21,25 @@ PRIMARY KEY (Placa)
 );
 
 CREATE TABLE USUARIOS(
-id INT[4],
-login VARCHAR[30],
-senha VARCHAR[30],
+id INT(4),
+login VARCHAR(30),
+senha VARCHAR(30),
 PRIMARYKEY(id)
 );
 
 CREATE TABLE LOCACAO(
-cpf_locacao VARCHAR[14],
-placa_locacao VARCHAR[12],
+cpf_locacao VARCHAR(14),
+placa_locacao VARCHAR(12),
 data_locacao DATE,
 data_devolucao DATE,
 hora_locacao TIME,
 hora_devolucao TIME,
-numero_locacao int[4],
+numero_locacao int(4),
 PRIMARY KEY(numero_locacao)
 );
 
 
-INSERT INTO USUARIOS(ID,LOGIN,NOME)VALUES('1','aula','aula321');
+INSERT INTO USUARIOS(ID,LOGIN,SENHA)VALUES('1','aula','aula321');
 INSERT INTO CLIENTE(NOME, CPF, SEXO, NASCIMENTO, RG, NACIONALIDADE, TELEFONE) VALUES('Lucas Jorge Souza','771.837.082-84','M','1997-04-08','26.079.729-7','Brasileira','(82) 3714-4841');
 INSERT INTO CLIENTE(NOME, CPF, SEXO, NASCIMENTO, RG, NACIONALIDADE, TELEFONE) VALUES('Cláudio Henrique Oliver Oliveira','830.326.193-27','M','1968-11-05','28.530.352-1','Brasileira','(11) 2678-5503');
 INSERT INTO CLIENTE(NOME, CPF, SEXO, NASCIMENTO, RG, NACIONALIDADE, TELEFONE) VALUES('Marcos Cauê Almada','800.205.859-34','M','1974-08-26','14.466.194-9','Brasileira','(84) 2540-9362');
