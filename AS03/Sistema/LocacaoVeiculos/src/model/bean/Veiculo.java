@@ -25,6 +25,14 @@ public class Veiculo {
         
     }
 
+    public Veiculo(Veiculo get) {
+        this.placa = get.placa;
+        this.modelo = get.modelo;
+        this.cor = get.cor;
+        this.ano = get.ano;
+        this.marca = get.marca;
+    }
+
     public JSONObject toJson() {
         json.JSONObject json = new JSONObject();
         json.put("marca", this.marca);

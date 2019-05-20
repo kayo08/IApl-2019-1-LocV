@@ -409,14 +409,16 @@ public class ViewImport extends javax.swing.JFrame {
             case "Veiculo": {
                 try {
                     List<Veiculo> lista = new ArrayList<>();
-                    Veiculo teste = new Veiculo();
                     VeiculoDAO dao = new VeiculoDAO();
                     FileReader fr = new FileReader("veiculo.xml");
                     XStream xstream = new XStream(new DomDriver());
                     xstream.autodetectAnnotations(true);
                     xstream.registerConverter(new ConverteData());
                     lista = (List<Veiculo>) xstream.fromXML(fr);
+                    for(int i=0; i<lista.size();i++){
+                    Veiculo teste = new Veiculo(lista.get(i));    
                     dao.create(teste);
+                    }
                 } catch (FileNotFoundException ex) {
                     Logger.getLogger(ViewImport.class.getName()).log(Level.SEVERE, null, ex);
                 }
